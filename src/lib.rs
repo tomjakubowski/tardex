@@ -43,7 +43,7 @@ where
     }
 
     /// Access the entry at a path.
-    pub fn entry<'a, P>(&'a self, k: P) -> Option<Entry<R>>
+    pub fn entry<P>(&self, k: P) -> Option<Entry<R>>
     where
         P: AsRef<Path>,
     {
@@ -102,7 +102,7 @@ where
         let inner = self.read.get_ref().clone();
         Entry {
             read: inner.take(limit),
-            meta: self.meta.clone(),
+            meta: self.meta,
         }
     }
 }

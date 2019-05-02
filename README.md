@@ -1,7 +1,18 @@
 # tardex
 
-A Rust crate to quickly look up a file's contents and metadata in a tarball
-using its path.  It's a "tarball index".
+A Rust crate to access a file's contents and metadata in a tarball using its
+path.  It's a "tarball index".
+
+## Why?
+
+The [`tar`](https://lib.rs/crates/tar) crate provides an extensive API but
+accessing entries is slightly awkward.  It:
+
+  * requires mutable access to the `Archive`.
+  * requires accessing the entries in order each time, not randomly.
+
+Tardex is just a less featureful alternative interface tuned for a particular
+use case, built atop it.
 
 ## Anticipated features
 
