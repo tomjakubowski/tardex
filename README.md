@@ -18,6 +18,9 @@ use case, built atop it.
 
 * [ ] Support hard and symbolic link tarball entries
 * [ ] Support directory tarball entries
+* [ ] Support `Tardex<File>`, which will require exclusive access to the
+  underlying reader (`File` is not `Clone`) when reading an Entry and therefore
+  will need a different API.
 
 ## License
 

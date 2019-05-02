@@ -3,8 +3,13 @@ name = "tardex"
 description = "Access tarball contents by path"
 version = "0.1.0"
 authors = ["Tom Jakubowski <tom@crystae.net>"]
-edition = "2018"
 license = "MIT OR Apache-2.0"
+
+documentation = "https://docs.rs/tardex"
+homepage = "https://github.com/tomjakubowski/tardex"
+repository = "https://github.com/tomjakubowski/tardex"
+
+edition = "2018"
 
 [dependencies]
 tar = "0.4"

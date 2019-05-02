@@ -7,10 +7,8 @@ use std::{
 use tar;
 
 /// Provides access to files in a tarball stored behind a Read impl.
-pub struct Tardex<R>
-where
-    R: io::Read + io::Seek + Clone,
-{
+#[derive(Debug)]
+pub struct Tardex<R> {
     dex: BTreeMap<PathBuf, Entry<R>>,
 }
 
@@ -18,6 +16,8 @@ impl<R> Tardex<R>
 where
     R: io::Read + io::Seek + Clone,
 {
+    /// Construct a new Tardex from a seekable, cloneable reader.  Note that this excludes
+    /// `std::fs::File`.
     pub fn new(reader: R) -> Result<Self> {
         let mut tar = tar::Archive::new(reader.clone());
         let mut dex = BTreeMap::new();
@@ -37,11 +37,6 @@ where
         Ok(Tardex { dex })
     }
 
-    /// Returns the tarball's paths in lexical order
-    pub fn paths(&self) -> impl Iterator<Item = &Path> {
-        self.dex.keys().map(|x| x.as_path())
-    }
-
     /// Access the entry at a path.
     pub fn entry<P>(&self, k: P) -> Option<Entry<R>>
     where
@@ -51,12 +46,10 @@ where
     }
 }
 
-impl<R> fmt::Debug for Tardex<R>
-where
-    R: io::Read + io::Seek + Clone,
-{
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Tardex")
+impl<R> Tardex<R> {
+    /// Returns the tarball's paths in lexical order
+    pub fn paths(&self) -> impl Iterator<Item = &Path> {
+        self.dex.keys().map(|x| x.as_path())
     }
 }
 
@@ -64,7 +57,6 @@ where
 pub enum TardexError {
     IoError(io::Error),
 }
-pub type Result<T> = std::result::Result<T, TardexError>;
 
 impl fmt::Display for TardexError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -73,7 +65,8 @@ impl fmt::Display for TardexError {
         }
     }
 }
-impl std::convert::From<io::Error> for TardexError {
+
+impl From<io::Error> for TardexError {
     fn from(err: io::Error) -> TardexError {
         TardexError::IoError(err)
     }
@@ -81,7 +74,10 @@ impl std::convert::From<io::Error> for TardexError {
 
 impl Error for TardexError {}
 
+pub type Result<T> = std::result::Result<T, TardexError>;
+
 /// An entry corresponds to a file in the tarball.
+#[derive(Debug)]
 pub struct Entry<R> {
     read: std::io::Take<R>,
     meta: Metadata,
