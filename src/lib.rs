@@ -143,12 +143,18 @@ impl Metadata {
             len: header.size()?,
         })
     }
+
     pub fn mtime(&self) -> u64 {
         self.mtime
     }
 
     pub fn len(&self) -> u64 {
         self.len
+    }
+
+    // clippy suggested it.
+    pub fn is_empty(&self) -> bool {
+        self.len() == 0
     }
 }
 
