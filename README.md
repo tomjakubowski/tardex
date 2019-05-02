@@ -1,7 +1,12 @@
 # tardex
 
-A Rust crate to quickly look up a file in a tarball using its path.  It's a
-"tarball index".
+A Rust crate to quickly look up a file's contents and metadata in a tarball
+using its path.  It's a "tarball index".
+
+## Anticipated features
+
+* [ ] Support hard and symbolic link tarball entries
+* [ ] Support directory tarball entries
 
 ## License
 

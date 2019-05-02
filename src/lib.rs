@@ -26,9 +26,9 @@ where
             let header = tar_entry.header();
             let path = tar_entry.path()?.into_owned();
             let offset = tar_entry.raw_file_position();
-            if header.entry_size()? != header.size()? {
-                // TODO: support sparse files in Entry's Read impl
-                continue;
+            match header.entry_type() {
+                tar::EntryType::Regular => (),
+                _ => continue,
             }
             let len = tar_entry.header().entry_size()?;
             let entry = Entry::in_tarball(reader.clone(), offset, len)?;
@@ -118,6 +118,22 @@ where
         Ok(Entry {
             read: entry_reader.take(file_len),
         })
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct Metadata {
+    mtime: u64,
+    len: u64,
+}
+
+impl Metadata {
+    pub fn mtime(&self) -> u64 {
+        self.mtime
+    }
+
+    pub fn len(&self) -> u64 {
+        self.len
     }
 }
 
