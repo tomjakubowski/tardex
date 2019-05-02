@@ -6,7 +6,7 @@ path.  It's a "tarball index".
 ## Why?
 
 The [`tar`](https://lib.rs/crates/tar) crate provides an extensive API but
-accessing entries is slightly awkward.  It:
+randomly accessing tarball entries by path is slightly awkward, because it:
 
   * requires mutable access to the `Archive`.
   * requires accessing the entries in order each time, not randomly.
