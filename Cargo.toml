@@ -3,6 +3,7 @@ name = "tardex"
 version = "0.1.0"
 authors = ["Tom Jakubowski <tom@crystae.net>"]
 edition = "2018"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
 tar = "0.4"
